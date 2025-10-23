@@ -122,13 +122,13 @@ class MeetingProcessor:
         self.storage = MeetingStorage()
 
     def process_meeting(self, audio_file_path: str, language: Optional[str] = None, save_results: bool = True) -> MeetingAnalysis:
-        print("🎤 Step 1: Transcribing audio...")
+        print(" Step 1: Transcribing audio...")
         transcription = self.asr_service.transcribe(audio_file_path, language)
         if transcription["status"] == "error":
             raise Exception(f"Transcription failed: {transcription['error']}")
         transcript = transcription["text"]
 
-        print("🤖 Step 2: Analyzing meeting...")
+        print(" Step 2: Analyzing meeting...")
         analysis = self.llm_service.analyze_meeting(transcript)
         if analysis["status"] == "error":
             raise Exception(f"Analysis failed: {analysis['error']}")
@@ -146,7 +146,7 @@ class MeetingProcessor:
 
         if save_results:
             self.storage.save_meeting(meeting)
-            print("📁 Results saved successfully!")
+            print(" Results saved successfully!")
 
         return meeting
 
@@ -214,7 +214,7 @@ def launch_ui():
             gr.Textbox(label="Language (optional)", value="en")
         ],
         outputs=["textbox"],
-        title="🎤 Meeting Summarization System",
+        title=" Meeting Summarization System",
         description="Upload an audio file to get the transcript, summary, and action items. Runs fully offline/free!"
     ).launch(share=True)
 
